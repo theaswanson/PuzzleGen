@@ -94,13 +94,16 @@ namespace Puzzle
 
                 foreach (GameBoardSpace nextSpace in shuffled)
                 {
-                    if (!path.Contains(nextSpace) && !solved && movesRemaining > 0)
+                    if (solved)
+                        break;
+                    else if (!path.Contains(nextSpace) && movesRemaining > 0)
                     {
                         Solve(nextSpace, movesRemaining - 1);
                     }
                 }
 
-                path.Remove(space);
+                if (!solved)
+                    path.Remove(space);
             }
         }
         public void minSolve()
@@ -117,6 +120,24 @@ namespace Puzzle
             while (!solved);
 
             Console.WriteLine("Moves: {0}", moves);
+        }
+        public void PrintPath()
+        {
+            for (int w = Width - 1; w >= 0; w--)
+            {
+                for (int i = 0; i <= Length - 1; i++)
+                {
+                    if (path.Find(s => s.X == i && s.Y == w) != null)
+                    {
+                        Console.Write("X ");
+                    }
+                    else
+                    {
+                        Console.Write("- ");
+                    }
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
